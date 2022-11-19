@@ -25,6 +25,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("io.springfox:springfox-swagger2:3.0.0")
 	implementation ("io.springfox:springfox-swagger-ui:3.0.0")
+
+	// library for logging with Kotlin
+	implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

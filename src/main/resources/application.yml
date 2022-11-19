@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: course-catalogue-service
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username:
+    password:
+  jpa:
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    show-sql: true
+  h2:
+    console:
+      enabled: true # available at /h2-console
+message: Hello from default profile
+
+# Using three dashes we can separate properties for different profiles. To specify for which profile the properties are given
+# we can use spring.config.activate.on-profile=<some-profile>
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+message: Some message from prod
