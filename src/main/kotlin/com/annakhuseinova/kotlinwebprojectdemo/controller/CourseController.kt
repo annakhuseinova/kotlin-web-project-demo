@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/v1/courses")
 class CourseController(val courseService: CourseService) {
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun addCourse(@RequestBody courseDto: CourseDto): CourseDto{
@@ -27,10 +26,8 @@ class CourseController(val courseService: CourseService) {
     }
 
     @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCourse(@PathVariable("course_variable") courseId: Int){
         return courseService.deleteCourse(courseId)
     }
-
-
-
 }
