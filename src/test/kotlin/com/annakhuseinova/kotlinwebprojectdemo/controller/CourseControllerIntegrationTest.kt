@@ -65,6 +65,19 @@ class CourseControllerIntegrationTest {
     }
 
     @Test
+    fun retrieveCourseByName(){
+        val responseBody = webTestClient
+            .get()
+            .uri("/v1/courses?course_name=Some Course 1")
+            .exchange()
+            .expectStatus().isOk
+            .expectBodyList(CourseDto::class.java)
+            .returnResult().responseBody
+        println("Course dto: $responseBody")
+        Assertions.assertEquals(1, responseBody!!.size)
+    }
+
+    @Test
     fun updateCourse(){
         val course = Course(null, "Some Course", "Development")
         courseRepository.save(course)

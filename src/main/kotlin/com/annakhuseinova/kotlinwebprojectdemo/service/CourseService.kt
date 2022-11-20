@@ -28,6 +28,10 @@ class CourseService(val courseRepository: CourseRepository) {
             CourseDto(it.id, it.name, it.category)
         }
     }
+    fun retrieveCourseByName(courseName: String): List<CourseDto> {
+        val coursesByName = courseRepository.findCourseByName(courseName)
+        return coursesByName.map { CourseDto(it.id, it.name, it.category) }
+    }
 
     fun updateCourse(courseId: Int, courseDto: CourseDto): CourseDto {
         val existingCourse = courseRepository.findById(courseId)
@@ -53,6 +57,4 @@ class CourseService(val courseRepository: CourseRepository) {
              throw CourseNotFoundException("No course found for id: $courseId")
          }
     }
-
-
 }

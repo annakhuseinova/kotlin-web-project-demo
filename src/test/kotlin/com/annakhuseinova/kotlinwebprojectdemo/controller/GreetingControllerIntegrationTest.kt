@@ -27,8 +27,4 @@ internal class GreetingControllerIntegrationTest {
             .returnResult()
         Assertions.assertEquals("$name, Hello from default profile", result.responseBody)
     }
-
-    @Test
-    fun getGreetingsService() {
-    }
 }
