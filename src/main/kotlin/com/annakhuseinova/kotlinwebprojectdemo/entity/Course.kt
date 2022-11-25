@@ -1,10 +1,6 @@
 package com.annakhuseinova.kotlinwebprojectdemo.entity
 
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "Courses")
@@ -14,5 +10,8 @@ data class Course(
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id : Int?,
     var name: String,
-    var category: String
+    var category: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="INSTRUCTOR_ID", nullable = false)
+    val instructor: Instructor? = null
 )
