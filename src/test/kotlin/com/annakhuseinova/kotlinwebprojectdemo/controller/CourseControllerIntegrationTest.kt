@@ -3,7 +3,9 @@ package com.annakhuseinova.kotlinwebprojectdemo.controller
 import com.annakhuseinova.kotlinwebprojectdemo.dto.CourseDto
 import com.annakhuseinova.kotlinwebprojectdemo.entity.Course
 import com.annakhuseinova.kotlinwebprojectdemo.repository.CourseRepository
+import com.annakhuseinova.kotlinwebprojectdemo.repository.InstructorRepository
 import com.annakhuseinova.kotlinwebprojectdemo.util.courseEntityList
+import com.annakhuseinova.kotlinwebprojectdemo.util.instructorEntity
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,16 +26,23 @@ class CourseControllerIntegrationTest {
     @Autowired
     lateinit var courseRepository: CourseRepository
 
+    @Autowired
+    lateinit var instructorRepository: InstructorRepository
+
     @BeforeEach
     fun setUp(){
         courseRepository.deleteAll()
-        val courses = courseEntityList()
+        instructorRepository.deleteAll()
+        val instructorEntity = instructorEntity();
+        instructorRepository.save(instructorEntity)
+        val courses = courseEntityList(instructorEntity)
         courseRepository.saveAll(courses)
     }
 
     @Test
     fun addCourse(){
-        val courseDto = CourseDto(null, "Some Course", "Some Author")
+        val instructor = instructorRepository.findAll().first();
+        val courseDto = CourseDto(null, "Some Course", "Some Author", instructor.id)
         val responseBody = webTestClient
             .post()
             .uri("/v1/courses")
@@ -46,7 +55,6 @@ class CourseControllerIntegrationTest {
         Assertions.assertTrue{
             responseBody!!.id != null
         }
-
     }
 
     @Test
@@ -79,10 +87,11 @@ class CourseControllerIntegrationTest {
 
     @Test
     fun updateCourse(){
-        val course = Course(null, "Some Course", "Development")
+        val instructor = instructorRepository.findAll().first();
+        val course = Course(null, "Some Course", "Development", instructor)
         courseRepository.save(course)
 
-        val updateCourseDto = CourseDto(null, "Updated Course", "Development")
+        val updateCourseDto = CourseDto(null, "Updated Course", "Development", course.instructor!!.id)
         val responseBody = webTestClient
             .put()
             .uri("/v1/courses/{course_id}", course.id)
@@ -98,7 +107,8 @@ class CourseControllerIntegrationTest {
 
     @Test
     fun deleteCourse(){
-        val course = Course(null, "Some Course", "Development")
+        val instructor = instructorRepository.findAll().first();
+        val course = Course(null, "Some Course", "Development", instructor)
         courseRepository.save(course)
         webTestClient
             .delete()
