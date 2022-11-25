@@ -24,7 +24,7 @@ class CourseControllerUnitTest {
 
     @Test
     fun addCourse(){
-        val courseDto = CourseDto(null, "Some Course", "Some Category")
+        val courseDto = CourseDto(null, "Some Course", "Some Category", 1)
 
         every { courseServiceMock.addCourse(any()) } returns CourseDto(1, "Some Course", "Some Category")
         val responseBody = webTestClient
@@ -43,7 +43,7 @@ class CourseControllerUnitTest {
 
     @Test
     fun addCourseValidation(){
-        val courseDto = CourseDto(null, "", "")
+        val courseDto = CourseDto(null, "", "whatever", 1)
 
         every { courseServiceMock.addCourse(any()) } returns CourseDto(1, "Some Course", "Some Category")
         val responseBody = webTestClient
