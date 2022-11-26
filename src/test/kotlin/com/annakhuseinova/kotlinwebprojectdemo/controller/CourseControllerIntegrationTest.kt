@@ -1,5 +1,6 @@
 package com.annakhuseinova.kotlinwebprojectdemo.controller
 
+import com.annakhuseinova.kotlinwebprojectdemo.PostreSQLContainerInitializer
 import com.annakhuseinova.kotlinwebprojectdemo.dto.CourseDto
 import com.annakhuseinova.kotlinwebprojectdemo.entity.Course
 import com.annakhuseinova.kotlinwebprojectdemo.repository.CourseRepository
@@ -14,11 +15,13 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.testcontainers.junit.jupiter.Testcontainers
 
+@Testcontainers // activates start up and tear down of containers when the tests start and finish
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
-class CourseControllerIntegrationTest {
+class CourseControllerIntegrationTest : PostreSQLContainerInitializer(){
 
     @Autowired
     lateinit var webTestClient: WebTestClient
@@ -28,6 +31,8 @@ class CourseControllerIntegrationTest {
 
     @Autowired
     lateinit var instructorRepository: InstructorRepository
+
+
 
     @BeforeEach
     fun setUp(){
